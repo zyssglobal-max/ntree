@@ -1,7 +1,5 @@
 <div align="center">
   <img src="favicon.png" alt="Z-NOS logo" width="100" height="100" /><br>
-
-  ![Descargas de la versión](https://img.shields.io/github/downloads/zyssglobal-max/ntree/nostrtree.v6.5.rar/total?style=for-the-badge)
   
   <h1> 🌳 NTree / Nostr client</h1>
   <p><strong>Cliente Nostr de código abierto para el [protocolo Nostr](https://github.com/nostr-protocol/nostr). NostrTree es un cliente enfocado en la persistencia y descentralización de los datos.</strong></p>
