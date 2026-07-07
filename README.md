@@ -13,9 +13,9 @@
 
 NostrTree es una aplicación descentralizada para gestionar y compartir enlaces personales usando la red **Nostr**. Permite a los usuarios almacenar sus enlaces de manera permanente en la red descentralizada, donde cualquier usuario puede verlos pero solo el propietario puede editarlos.
 
-<p align="center">
-  <img src="## 🧮 Vista previa
+## 🧮 Vista previa
 
+<p align="center">
 <img src="assets/img/preview-appNtree.jpg" alt="n-tree-app" width="100%"/>" style="max-width: 100%; height: auto;">
 </p>
 
