@@ -1,6 +1,17 @@
-# 🌳 NostrTree
+<div align="center">
+  <img src="favicon.png" alt="Z-NOS logo" width="100" height="100" /><br>
+  
+  <h1> 🌳 NTree / Nostr client</h1>
+  <p><strong>Cliente Nostr de código abierto para el [protocolo Nostr](https://github.com/nostr-protocol/nostr). NostrTree es un cliente enfocado en la persistencia y descentralización de los datos.</strong></p>
+  
+  <p>
+    Libre & de código abierto.<br/>
+    Creado por <a href="https://github.com/zyssglobal-max/">ZYSS .CORP</a>, con un estilo moderno, diseño responsive con tema oscuro y animaciones.
+  </p>
+  
+</div>
 
-NostrTree es una aplicación web descentralizada para gestionar y compartir enlaces personales usando la red **Nostr**. Permite a los usuarios almacenar sus enlaces de manera permanente en la red descentralizada, donde cualquier usuario puede verlos pero solo el propietario puede editarlos.
+NostrTree es una aplicación descentralizada para gestionar y compartir enlaces personales usando la red **Nostr**. Permite a los usuarios almacenar sus enlaces de manera permanente en la red descentralizada, donde cualquier usuario puede verlos pero solo el propietario puede editarlos.
 
 <p align="center">
   <img src="ddddddddddd" style="max-width: 100%; height: auto;">
