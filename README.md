@@ -22,7 +22,7 @@ NostrTree es una aplicación descentralizada para gestionar compartir enlaces pe
 ### 1. 🔐 Autenticación con Clave Privada
 
 **Flujo de autenticación:**
-- El usuario ingresa su clave privada **nsec1...** (Nostr Secret Key) / recomiendo que copies la clave nsec antes de iniciar sesion ...
+- El usuario ingresa su clave privada **nsec1...** (Nostr Secret Key) / recomiendo que copies la clave [ nsec ] antes de iniciar sesión ...
 - La clave nunca abandona el navegador (procesamiento local)
 - Soporte para generación de nuevas claves desde la interfaz
 
