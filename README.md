@@ -60,7 +60,7 @@ nsec → privHex → pubHex → npub
 ```json
 {
   "kind": 30000,
-  "tags": [["d", "nostrtree_profile"]],
+  "tags": [["d", "notree_profile"]],
   "content": {
     "name": "Usuario",
     "links": [
