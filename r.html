@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>u-link - Redirección</title>
+    <title>u-link</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -146,11 +146,7 @@
         <a href="#" class="back-link" id="backLink" style="display:none;">← Volver a u-link</a>
         <div class="relay-info" id="relayInfo">Conectando a relays...</div>
     </div>
-
     <script>
-        // ============================================
-        // CONFIGURACIÓN
-        // ============================================
         const CONFIG = {
             relays: [
                 'wss://relay.damus.io',
@@ -162,10 +158,6 @@
             maxAttempts: 4,
             timeout: 10000
         };
-
-        // ============================================
-        // DOM REFERENCIAS
-        // ============================================
         const DOM = {
             spinner: document.getElementById('spinner'),
             title: document.getElementById('title'),
@@ -177,22 +169,15 @@
             relayInfo: document.getElementById('relayInfo'),
             shortIdDisplay: document.getElementById('shortIdDisplay')
         };
-
-        // ============================================
-        // OBTENER SHORT ID
-        // ============================================
         function getShortId() {
             const params = new URLSearchParams(window.location.search);
             const u = params.get('u');
             if (u) return u;
-            
             const path = window.location.pathname;
             const match = path.match(/\/r\/([a-z0-9]+)/);
             return match ? match[1] : null;
         }
-
         const shortId = getShortId();
-
         if (!shortId) {
             DOM.spinner.style.display = 'none';
             DOM.title.textContent = '❌ Enlace inválido';
@@ -206,10 +191,6 @@
             DOM.shortIdDisplay.innerHTML = `🔑 <span class="short-id">${shortId}</span>`;
             DOM.relayInfo.textContent = `Buscando enlace: ${shortId}`;
         }
-
-        // ============================================
-        // TOAST
-        // ============================================
         function toast(msg, type = 'info') {
             const el = document.createElement('div');
             el.style.cssText = `
@@ -229,27 +210,19 @@
                 setTimeout(() => el.remove(), 300);
             }, 3500);
         }
-
-        // ============================================
-        // CONEXIÓN A RELAYS - SOLO LEER
-        // ============================================
         let wsConnections = [];
         let foundUrl = null;
         let attempts = 0;
         let currentSubId = null;
         let timeoutId = null;
         let isResolved = false;
-
         function connectRelays() {
             if (isResolved) return;
-            
             let connectedCount = 0;
             DOM.relayInfo.textContent = `Conectando a ${CONFIG.relays.length} relays...`;
-            
             CONFIG.relays.forEach(url => {
                 try {
                     const ws = new WebSocket(url);
-                    
                     ws.onopen = () => {
                         connectedCount++;
                         console.log(`✅ Conectado a ${url}`);
@@ -258,7 +231,6 @@
                             searchLinks();
                         }
                     };
-                    
                     ws.onmessage = (e) => {
                         try {
                             const data = JSON.parse(e.data);
@@ -267,11 +239,9 @@
                             console.error('Error parseando mensaje:', err);
                         }
                     };
-                    
                     ws.onerror = (err) => {
                         console.warn(`⚠️ Error en ${url}`, err);
                     };
-                    
                     ws.onclose = () => {
                         console.warn(`Desconectado de ${url}`);
                         connectedCount--;
@@ -279,14 +249,11 @@
                             handleDisconnect();
                         }
                     };
-                    
                     wsConnections.push(ws);
                 } catch (e) {
                     console.error(`❌ Error al conectar a ${url}:`, e);
                 }
             });
-
-            // Timeout global
             if (timeoutId) clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
                 if (!foundUrl && !isResolved) {
@@ -303,7 +270,6 @@
                 timeoutId = null;
             }, CONFIG.timeout);
         }
-
         function handleDisconnect() {
             if (isResolved) return;
             attempts++;
@@ -319,7 +285,6 @@
                 showError('❌ Enlace no encontrado', 'No se pudo encontrar el enlace en la red. Verifica que el ID sea correcto.');
             }
         }
-
         function showError(title, msg) {
             if (isResolved) return;
             isResolved = true;
@@ -333,24 +298,19 @@
             DOM.backLink.textContent = '← Volver';
             DOM.retryBtn.style.display = 'inline-block';
             DOM.relayInfo.textContent = '❌ Error al encontrar el enlace';
-            
             wsConnections.forEach(w => { try { w.close(); } catch(e){} });
             wsConnections = [];
         }
-
         function handleRelayMessage(data) {
             if (isResolved) return;
-            
             try {
                 if (data[0] === 'EVENT' && data.length >= 3) {
                     const event = data[2];
                     if (event.kind !== 30000) return;
-                    
                     const hasUlTag = event.tags && event.tags.some(tag =>
                         tag[0] === 'd' && tag[1] === CONFIG.nostrTreeTag
                     );
                     if (!hasUlTag) return;
-
                     try {
                         const profile = JSON.parse(event.content);
                         if (profile.links && Array.isArray(profile.links)) {
@@ -358,19 +318,15 @@
                             if (link) {
                                 foundUrl = link.url;
                                 isResolved = true;
-                                
-                                // Cerrar conexiones
                                 wsConnections.forEach(w => { try { w.close(); } catch(e){} });
                                 wsConnections = [];
                                 if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
-                                
                                 DOM.spinner.style.display = 'none';
                                 DOM.title.textContent = '🔗 Redirigiendo...';
                                 DOM.subtitle.textContent = `Enlace encontrado: ${link.title || 'sin título'}`;
                                 DOM.success.textContent = '✓ Redirigiendo...';
                                 DOM.success.style.display = 'block';
                                 DOM.relayInfo.textContent = `✅ Enlace encontrado! Redirigiendo a ${link.url.substring(0, 50)}...`;
-                                
                                 // Redirigir después de 500ms
                                 setTimeout(() => {
                                     window.location.href = foundUrl;
@@ -382,16 +338,13 @@
                         console.error('Error parseando perfil:', err);
                     }
                 }
-                
                 if (data[0] === 'EOSE' && data.length >= 2) {
-                    // Fin de la búsqueda en este relay
                     console.log('EOSE recibido para:', data[1]);
                 }
             } catch (e) {
                 console.error('Error en handleRelayMessage:', e);
             }
         }
-
         function searchLinks() {
             if (isResolved || foundUrl) return;
             if (currentSubId) {
@@ -401,14 +354,12 @@
                     }
                 });
             }
-            
             currentSubId = 'ulink_search_' + Date.now();
             const filter = {
                 kinds: [30000],
                 "#d": [CONFIG.nostrTreeTag],
                 limit: 50
             };
-            
             let sent = 0;
             wsConnections.forEach(ws => {
                 if (ws.readyState === WebSocket.OPEN) {
@@ -418,10 +369,7 @@
                     } catch(e) {}
                 }
             });
-            
             DOM.relayInfo.textContent = `Buscando en ${sent} relay(s)... (${shortId})`;
-            
-            // Cerrar suscripción después de un tiempo
             setTimeout(() => {
                 if (!isResolved) {
                     wsConnections.forEach(ws => {
@@ -433,10 +381,6 @@
                 }
             }, 7000);
         }
-
-        // ============================================
-        // RETRY
-        // ============================================
         document.getElementById('retryBtn')?.addEventListener('click', function() {
             if (isResolved) {
                 isResolved = false;
@@ -455,10 +399,6 @@
                 connectRelays();
             }
         });
-
-        // ============================================
-        // INICIO
-        // ============================================
         if (shortId) {
             DOM.title.textContent = '🔗 Redirigiendo...';
             DOM.subtitle.textContent = `Buscando enlace: ${shortId}`;
