@@ -2,13 +2,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>u-link</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>u-link · Redirigiendo</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2'><path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/><path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #0a0a12;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-input: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.06);
+            --text: #f0f0f5;
+            --text2: rgba(255,255,255,0.6);
+            --text3: rgba(255,255,255,0.3);
+            --accent: #7c3aed;
+            --accent2: #a78bfa;
+            --glow: rgba(124,58,237,0.25);
+            --grad: linear-gradient(135deg, #7c3aed, #ec4899);
+            --radius: 20px;
+            --shadow: 0 8px 32px rgba(0,0,0,0.5);
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
         body {
             background: #0a0a12;
-            color: #f0f0f5;
+            color: var(--text);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
             display: flex;
@@ -17,134 +37,226 @@
             padding: 20px;
             background-image: 
                 radial-gradient(ellipse at 60% 20%, rgba(74, 124, 191, 0.08), transparent 60%),
-                radial-gradient(ellipse at 40% 80%, rgba(201, 168, 76, 0.06), transparent 50%);
+                radial-gradient(ellipse at 40% 80%, rgba(201, 168, 76, 0.06), transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
         }
+
         .container {
             text-align: center;
-            max-width: 500px;
-            padding: 40px;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px;
-            backdrop-filter: blur(20px);
-            background: rgba(10, 10, 18, 0.7);
-            box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+            max-width: 480px;
+            width: 100%;
+            padding: 40px 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(24px);
+            box-shadow: var(--shadow);
+            animation: fadeUp 0.5s ease;
         }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .logo {
-            font-size: 48px;
-            margin-bottom: 16px;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px;
+            background: var(--grad);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px var(--glow);
+            animation: float 3s ease-in-out infinite;
         }
+
+        .logo svg {
+            width: 36px;
+            height: 36px;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
         .spinner {
             width: 48px;
             height: 48px;
             border-radius: 50%;
             border: 3px solid rgba(255,255,255,0.05);
-            border-top-color: #7c3aed;
+            border-top-color: var(--accent);
             animation: spin 0.8s linear infinite;
             margin: 0 auto 20px;
         }
+
         @keyframes spin { to { transform: rotate(360deg); } }
+
         h2 { 
             font-size: 22px; 
             margin-bottom: 8px; 
-            color: #f0f0f5;
+            color: var(--text);
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
-        p { 
-            color: rgba(255,255,255,0.6); 
+
+        .subtitle { 
+            color: var(--text2); 
             font-size: 14px; 
             margin-bottom: 4px;
             line-height: 1.6;
         }
-        .error {
-            color: #ef4444;
-            font-size: 16px;
-            margin-top: 12px;
-            padding: 12px;
-            border-radius: 8px;
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.2);
+
+        .short-id-wrapper {
+            margin: 12px 0;
         }
+
+        .short-id {
+            font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+            color: var(--accent2);
+            font-size: 16px;
+            padding: 6px 16px;
+            background: rgba(124,58,237,0.1);
+            border: 1px solid rgba(124,58,237,0.15);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .error {
+            color: var(--danger);
+            font-size: 14px;
+            margin-top: 12px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            /* background: rgba(239,68,68,0.08); */
+            border: 1px solid rgba(239,68,68,0.15);
+            display: none;
+            text-align: left;
+        }
+
+        .error-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .error-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--danger);
+            fill: none;
+            stroke-width: 2;
+        }
+
         .success {
-            color: #10b981;
+            color: var(--success);
             font-size: 14px;
             margin-top: 8px;
+            display: none;
         }
-        .back-link {
+
+        .success-icon {
             display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        .success-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--success);
+            fill: none;
+            stroke-width: 2.5;
+        }
+
+        .relay-info {
+            font-size: 11px;
+            color: var(--text3);
             margin-top: 20px;
-            color: #a78bfa;
-            text-decoration: none;
-            padding: 10px 24px;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px;
-            transition: all 0.3s;
-            font-weight: 600;
-            font-size: 14px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            letter-spacing: 0.3px;
         }
-        .back-link:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(124,58,237,0.3);
-            transform: translateY(-2px);
-        }
+
         .status-dot {
             display: inline-block;
             width: 8px;
             height: 8px;
             border-radius: 50%;
             margin-right: 6px;
+            vertical-align: middle;
         }
-        .status-dot.online { background: #10b981; animation: pulse 1.5s infinite; }
-        .status-dot.offline { background: #ef4444; }
+
+        .status-dot.online { background: var(--success); }
+        .status-dot.offline { background: var(--danger); }
         .status-dot.connecting { background: #f59e0b; animation: pulse 1s infinite; }
+
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
-        .relay-info {
-            font-size: 11px;
-            color: rgba(255,255,255,0.3);
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255,255,255,0.04);
+
+        .relay-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text2);
+            margin-top: 8px;
         }
-        .short-id {
-            font-family: monospace;
-            color: #a78bfa;
-            font-size: 16px;
-            padding: 4px 12px;
-            background: rgba(124,58,237,0.1);
-            border-radius: 6px;
-            display: inline-block;
-            margin-top: 4px;
-        }
-        .retry-btn {
-            margin-top: 12px;
-            padding: 8px 20px;
-            background: rgba(124,58,237,0.15);
-            border: 1px solid rgba(124,58,237,0.2);
-            border-radius: 8px;
-            color: #a78bfa;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-        .retry-btn:hover {
-            background: rgba(124,58,237,0.25);
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 480px) {
+            .container { padding: 30px 20px; }
+            .logo { width: 60px; height: 60px; }
+            .logo svg { width: 30px; height: 30px; }
+            h2 { font-size: 19px; }
         }
     </style>
 </head>
 <body>
     <div class="container" id="app">
-        <div class="logo">🔗</div>
+        <div class="logo">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+        </div>
         <div class="spinner" id="spinner"></div>
         <h2 id="title">Redirigiendo...</h2>
-        <p id="subtitle">Buscando enlace en la red descentralizada</p>
-        <div id="shortIdDisplay" style="margin-top:8px;"></div>
-        <div class="error" id="error" style="display:none;"></div>
-        <div class="success" id="success" style="display:none;"></div>
-        <button class="retry-btn" id="retryBtn" style="display:none;">🔄 Reintentar</button>
-        <a href="#" class="back-link" id="backLink" style="display:none;">← Volver a u-link</a>
+        <p class="subtitle" id="subtitle">Buscando enlace en la red descentralizada</p>
+        <div class="short-id-wrapper" id="shortIdWrapper">
+            <span class="short-id" id="shortIdDisplay"></span>
+        </div>
+        <div class="error" id="error">
+            <span class="error-icon">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+            </span>
+            <span id="errorText"></span>
+        </div>
+        <div class="success" id="success">
+            <span class="success-icon">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+            </span>
+            <span id="successText">Redirigiendo...</span>
+        </div>
         <div class="relay-info" id="relayInfo">Conectando a relays...</div>
+        <div class="relay-status" id="relayStatus">
+            <span class="status-dot connecting" id="statusDot"></span>
+            <span id="statusText">Conectando...</span>
+        </div>
     </div>
     <script>
         const CONFIG = {
@@ -158,17 +270,23 @@
             maxAttempts: 4,
             timeout: 10000
         };
+
         const DOM = {
             spinner: document.getElementById('spinner'),
             title: document.getElementById('title'),
             subtitle: document.getElementById('subtitle'),
             error: document.getElementById('error'),
+            errorText: document.getElementById('errorText'),
             success: document.getElementById('success'),
-            backLink: document.getElementById('backLink'),
-            retryBtn: document.getElementById('retryBtn'),
+            successText: document.getElementById('successText'),
             relayInfo: document.getElementById('relayInfo'),
-            shortIdDisplay: document.getElementById('shortIdDisplay')
+            relayStatus: document.getElementById('relayStatus'),
+            statusDot: document.getElementById('statusDot'),
+            statusText: document.getElementById('statusText'),
+            shortIdDisplay: document.getElementById('shortIdDisplay'),
+            shortIdWrapper: document.getElementById('shortIdWrapper')
         };
+
         function getShortId() {
             const params = new URLSearchParams(window.location.search);
             const u = params.get('u');
@@ -177,31 +295,46 @@
             const match = path.match(/\/r\/([a-z0-9]+)/);
             return match ? match[1] : null;
         }
+
         const shortId = getShortId();
+
+        function updateStatus(status, text) {
+            DOM.statusDot.className = 'status-dot ' + status;
+            DOM.statusText.textContent = text;
+        }
+
         if (!shortId) {
             DOM.spinner.style.display = 'none';
-            DOM.title.textContent = '❌ Enlace inválido';
+            DOM.title.textContent = 'Enlace inválido';
             DOM.subtitle.textContent = 'No se encontró el ID del enlace';
-            DOM.error.textContent = 'URL no válida. El enlace corto no tiene un ID válido.';
+            DOM.errorText.textContent = 'URL no válida. El enlace corto no tiene un ID válido.';
             DOM.error.style.display = 'block';
-            DOM.backLink.style.display = 'inline-block';
-            DOM.backLink.href = '#';
             DOM.relayInfo.textContent = 'Error: ID no encontrado';
+            DOM.shortIdWrapper.classList.add('hidden');
+            updateStatus('offline', 'Error');
         } else {
-            DOM.shortIdDisplay.innerHTML = `🔑 <span class="short-id">${shortId}</span>`;
-            DOM.relayInfo.textContent = `Buscando enlace: ${shortId}`;
+            DOM.shortIdDisplay.textContent = shortId;
+            DOM.relayInfo.textContent = 'Buscando enlace: ' + shortId;
+            updateStatus('connecting', 'Buscando...');
         }
+
         function toast(msg, type = 'info') {
             const el = document.createElement('div');
+            const colors = {
+                info: 'rgba(124,58,237,0.15)',
+                error: 'rgba(239,68,68,0.15)',
+                success: 'rgba(16,185,129,0.15)'
+            };
             el.style.cssText = `
                 position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-                padding: 14px 24px; background: rgba(20,20,35,0.95); backdrop-filter: blur(20px);
+                padding: 14px 24px; background: rgba(20,20,35,0.95);
+                backdrop-filter: blur(20px);
                 border-radius: 12px; color: #f0f0f5; font-size: 14px;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.06);
-                z-index: 9999; animation: slideUp 0.3s ease; max-width: 90%;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+                border: 1px solid ${colors[type] || colors.info};
+                z-index: 9999; animation: fadeUp 0.3s ease; max-width: 90%;
+                text-align: center;
             `;
-            if (type === 'error') el.style.borderColor = '#ef4444';
-            if (type === 'success') el.style.borderColor = '#10b981';
             el.textContent = msg;
             document.body.appendChild(el);
             setTimeout(() => {
@@ -210,23 +343,28 @@
                 setTimeout(() => el.remove(), 300);
             }, 3500);
         }
+
         let wsConnections = [];
         let foundUrl = null;
         let attempts = 0;
         let currentSubId = null;
         let timeoutId = null;
         let isResolved = false;
+
         function connectRelays() {
             if (isResolved) return;
             let connectedCount = 0;
-            DOM.relayInfo.textContent = `Conectando a ${CONFIG.relays.length} relays...`;
+            DOM.relayInfo.textContent = 'Conectando a ' + CONFIG.relays.length + ' relays...';
+            updateStatus('connecting', 'Conectando...');
+
             CONFIG.relays.forEach(url => {
                 try {
                     const ws = new WebSocket(url);
                     ws.onopen = () => {
                         connectedCount++;
-                        console.log(`✅ Conectado a ${url}`);
-                        DOM.relayInfo.textContent = `Conectado a ${connectedCount} relay(s)`;
+                        console.log('✅ Conectado a ' + url);
+                        DOM.relayInfo.textContent = 'Conectado a ' + connectedCount + ' relay(s)';
+                        updateStatus('online', connectedCount + ' relays');
                         if (connectedCount >= 1 && !isResolved) {
                             searchLinks();
                         }
@@ -240,10 +378,10 @@
                         }
                     };
                     ws.onerror = (err) => {
-                        console.warn(`⚠️ Error en ${url}`, err);
+                        console.warn('⚠️ Error en ' + url, err);
                     };
                     ws.onclose = () => {
-                        console.warn(`Desconectado de ${url}`);
+                        console.warn('Desconectado de ' + url);
                         connectedCount--;
                         if (connectedCount === 0 && !foundUrl && !isResolved) {
                             handleDisconnect();
@@ -251,56 +389,58 @@
                     };
                     wsConnections.push(ws);
                 } catch (e) {
-                    console.error(`❌ Error al conectar a ${url}:`, e);
+                    console.error('❌ Error al conectar a ' + url + ':', e);
                 }
             });
+
             if (timeoutId) clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
                 if (!foundUrl && !isResolved) {
                     attempts++;
                     if (attempts < CONFIG.maxAttempts) {
-                        toast(`🔄 Reintentando (${attempts}/${CONFIG.maxAttempts})...`, 'info');
+                        toast('Reintentando (' + attempts + '/' + CONFIG.maxAttempts + ')...', 'info');
                         wsConnections.forEach(w => { try { w.close(); } catch(e){} });
                         wsConnections = [];
                         connectRelays();
                     } else {
-                        showError('❌ Enlace no encontrado', 'No se pudo encontrar el enlace en la red después de varios intentos.');
+                        showError('Enlace no encontrado', 'No se pudo encontrar el enlace en la red después de varios intentos.');
                     }
                 }
                 timeoutId = null;
             }, CONFIG.timeout);
         }
+
         function handleDisconnect() {
             if (isResolved) return;
             attempts++;
             if (attempts < CONFIG.maxAttempts) {
                 const delay = Math.min(2000 * attempts, 8000);
-                DOM.relayInfo.textContent = `Reconectando en ${delay/1000}s... (${attempts}/${CONFIG.maxAttempts})`;
+                DOM.relayInfo.textContent = 'Reconectando en ' + (delay/1000) + 's... (' + attempts + '/' + CONFIG.maxAttempts + ')';
+                updateStatus('connecting', 'Reintento ' + attempts + '/' + CONFIG.maxAttempts);
                 setTimeout(() => {
                     wsConnections.forEach(w => { try { w.close(); } catch(e){} });
                     wsConnections = [];
                     connectRelays();
                 }, delay);
             } else {
-                showError('❌ Enlace no encontrado', 'No se pudo encontrar el enlace en la red. Verifica que el ID sea correcto.');
+                showError('Enlace no encontrado', 'No se pudo encontrar el enlace en la red. Verifica que el ID sea correcto.');
             }
         }
+
         function showError(title, msg) {
             if (isResolved) return;
             isResolved = true;
             DOM.spinner.style.display = 'none';
             DOM.title.textContent = title;
             DOM.subtitle.textContent = 'Intenta verificar el enlace';
-            DOM.error.textContent = msg;
+            DOM.errorText.textContent = msg;
             DOM.error.style.display = 'block';
-            DOM.backLink.style.display = 'inline-block';
-            DOM.backLink.href = 'https://github.com';
-            DOM.backLink.textContent = '← Volver';
-            DOM.retryBtn.style.display = 'inline-block';
-            DOM.relayInfo.textContent = '❌ Error al encontrar el enlace';
+            DOM.relayInfo.textContent = 'Error al encontrar el enlace';
+            updateStatus('offline', 'Error');
             wsConnections.forEach(w => { try { w.close(); } catch(e){} });
             wsConnections = [];
         }
+
         function handleRelayMessage(data) {
             if (isResolved) return;
             try {
@@ -322,12 +462,12 @@
                                 wsConnections = [];
                                 if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
                                 DOM.spinner.style.display = 'none';
-                                DOM.title.textContent = '🔗 Redirigiendo...';
-                                DOM.subtitle.textContent = `Enlace encontrado: ${link.title || 'sin título'}`;
-                                DOM.success.textContent = '✓ Redirigiendo...';
+                                DOM.title.textContent = 'Redirigiendo...';
+                                DOM.subtitle.textContent = 'Enlace: ' + (link.title || 'sin título');
+                                DOM.successText.textContent = 'Redirigiendo...';
                                 DOM.success.style.display = 'block';
-                                DOM.relayInfo.textContent = `✅ Enlace encontrado! Redirigiendo a ${link.url.substring(0, 50)}...`;
-                                // Redirigir después de 500ms
+                                DOM.relayInfo.textContent = 'Enlace encontrado! Redirigiendo...';
+                                updateStatus('online', 'Encontrado!');
                                 setTimeout(() => {
                                     window.location.href = foundUrl;
                                 }, 600);
@@ -345,6 +485,7 @@
                 console.error('Error en handleRelayMessage:', e);
             }
         }
+
         function searchLinks() {
             if (isResolved || foundUrl) return;
             if (currentSubId) {
@@ -369,7 +510,7 @@
                     } catch(e) {}
                 }
             });
-            DOM.relayInfo.textContent = `Buscando en ${sent} relay(s)... (${shortId})`;
+            DOM.relayInfo.textContent = 'Buscando en ' + sent + ' relay(s)... (' + shortId + ')';
             setTimeout(() => {
                 if (!isResolved) {
                     wsConnections.forEach(ws => {
@@ -381,27 +522,10 @@
                 }
             }, 7000);
         }
-        document.getElementById('retryBtn')?.addEventListener('click', function() {
-            if (isResolved) {
-                isResolved = false;
-                foundUrl = null;
-                attempts = 0;
-                DOM.error.style.display = 'none';
-                DOM.error.textContent = '';
-                DOM.spinner.style.display = 'block';
-                DOM.title.textContent = 'Redirigiendo...';
-                DOM.subtitle.textContent = 'Reintentando conexión...';
-                DOM.backLink.style.display = 'none';
-                this.style.display = 'none';
-                DOM.relayInfo.textContent = 'Reconectando...';
-                wsConnections.forEach(w => { try { w.close(); } catch(e){} });
-                wsConnections = [];
-                connectRelays();
-            }
-        });
+
         if (shortId) {
-            DOM.title.textContent = '🔗 Redirigiendo...';
-            DOM.subtitle.textContent = `Buscando enlace: ${shortId}`;
+            DOM.title.textContent = 'Redirigiendo...';
+            DOM.subtitle.textContent = 'Buscando enlace: ' + shortId;
             connectRelays();
         }
     </script>
