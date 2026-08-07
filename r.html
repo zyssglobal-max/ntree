@@ -46,7 +46,7 @@
             border: 1px solid var(--border);
             border-radius: var(--radius);
             backdrop-filter: blur(24px);
-            box-shadow: var(--shadow);
+            /* box-shadow: var(--shadow); */
             animation: fadeUp 0.5s ease;
         }
         @keyframes fadeUp {
@@ -274,13 +274,13 @@
         }
         if (!shortId) {
             DOM.spinner.style.display = 'none';
-            DOM.title.textContent = 'Enlace inválido';
-            DOM.subtitle.textContent = 'No se encontró el ID del enlace';
-            DOM.errorText.textContent = 'URL no válida. El enlace corto no tiene un ID válido.';
+            DOM.title.textContent = '✄ Enlace inválido';
+            DOM.subtitle.textContent = '. • No se encontró el ID del enlace . •';
+            DOM.errorText.textContent = 'URL no válida. El enlace corto no tiene un ID válido ...';
             DOM.error.style.display = 'block';
-            DOM.relayInfo.textContent = 'Error: ID no encontrado';
+            DOM.relayInfo.textContent = '໒';
             DOM.shortIdWrapper.classList.add('hidden');
-            updateStatus('offline', 'Error');
+            updateStatus('offline', '...');
         } else {
             DOM.shortIdDisplay.textContent = shortId;
             DOM.relayInfo.textContent = 'Buscando enlace: ' + shortId;
